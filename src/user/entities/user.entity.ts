@@ -31,6 +31,9 @@ export class User {
   lastName: string;
 
   @Prop()
+  patronymic: string;
+
+  @Prop()
   photo: string;
 
   @Prop()

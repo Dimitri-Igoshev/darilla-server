@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './entities/user.entity';
+import { Role, User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
@@ -57,7 +57,10 @@ export class UserService {
     const user = await this.getUserById(id);
 
     return user
-      .updateOne({ shops: [...user.shops, shop] }, { new: true })
+      .updateOne(
+        { shops: [...user.shops, shop], roles: [...user.roles, Role.SELLER] },
+        { new: true },
+      )
       .exec();
   }
 }

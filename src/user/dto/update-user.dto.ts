@@ -1,6 +1,7 @@
 export class UpdateUserDto {
   firstName?: string;
   lastName?: string;
+  patronymic?: string;
   photo?: string;
   phone?: string;
   roles?: string[];

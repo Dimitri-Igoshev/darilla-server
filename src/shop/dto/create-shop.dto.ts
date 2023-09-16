@@ -1,5 +1,8 @@
 export class CreateShopDto {
   title: string;
-  address?: string;
+  address: string;
+  website?: string;
+  description?: string;
   owner: string;
+  contract: string;
 }
