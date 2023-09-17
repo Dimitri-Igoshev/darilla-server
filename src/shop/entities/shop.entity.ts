@@ -37,6 +37,9 @@ export class Shop {
   address: string;
 
   @Prop({ type: String })
+  phone: string;
+
+  @Prop({ type: String })
   weekStart: string;
 
   @Prop({ type: String })

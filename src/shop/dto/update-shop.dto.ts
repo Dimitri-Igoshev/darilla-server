@@ -4,6 +4,7 @@ export class UpdateShopDto {
   title: string;
   logoUrl?: string;
   address: string;
+  phone?: string;
   weekStart?: string;
   weekEnd?: string;
   weekendStart?: string;
