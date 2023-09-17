@@ -30,14 +30,38 @@ export class Shop {
   @Prop({ type: String, required: true, unique: true })
   title: string;
 
+  @Prop({ type: String })
+  logoUrl: string;
+
   @Prop({ type: String, required: true })
   address: string;
+
+  @Prop({ type: String })
+  weekStart: string;
+
+  @Prop({ type: String })
+  weekEnd: string;
+
+  @Prop({ type: String })
+  weekendStart: string;
+
+  @Prop({ type: String })
+  weekendEnd: string;
 
   @Prop({ type: String })
   website: string;
 
   @Prop({ type: String })
+  emailInfo: string;
+
+  @Prop({ type: String })
+  emailDocs: string;
+
+  @Prop({ type: String })
   description: string;
+
+  @Prop({ type: String })
+  descriptionFull: string;
 
   @Prop({ type: String })
   companyName: string;
