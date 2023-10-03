@@ -99,6 +99,21 @@ export class Shop {
   @Prop({ type: String })
   contract: string;
 
+  @Prop({ type: String })
+  certificateOfRegistration: string;
+
+  @Prop({ type: String })
+  passportScan: string;
+
+  @Prop({ type: String })
+  leaseAgreement: string;
+
+  @Prop({ type: String })
+  insidePhoto: string;
+
+  @Prop({ type: String })
+  outsidePhoto: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: User;
 
