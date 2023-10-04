@@ -12,6 +12,7 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -38,7 +39,11 @@ export class ProductController {
 
   @Patch(':id')
   @UseInterceptors(FileInterceptor('files'))
-  update(@Param('id') id: string, @UploadedFile() files: Express.Multer.File[], @Body() updateProductDto: UpdateProductDto) {
+  update(
+    @Param('id') id: string,
+    @UploadedFile() files: Express.Multer.File[],
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
     return this.productService.update(id, files, updateProductDto);
   }
 
