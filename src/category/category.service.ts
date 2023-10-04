@@ -15,7 +15,7 @@ export class CategoryService {
 
   async create(file: Express.Multer.File, data: CreateCategoryDto) {
     const newCategory = new this.categoryModel(data);
-    const res = await newCategory.save();
+    let res = await newCategory.save();
 
     if (data.parent) {
       const parent = await this.categoryModel
@@ -24,6 +24,14 @@ export class CategoryService {
 
       await parent
         .updateOne({ children: [...parent.children, res._id] }, { new: true })
+        .exec();
+
+      res = await this.categoryModel
+        .findOneAndUpdate(
+          { _id: res._id },
+          { parentName: parent.title },
+          { new: true },
+        )
         .exec();
     }
 
@@ -61,9 +69,27 @@ export class CategoryService {
   }
 
   async update(id: string, file: Express.Multer.File, data: UpdateCategoryDto) {
-    const res = this.categoryModel
+    let res = this.categoryModel
       .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
       .exec();
+
+    if (data.parent) {
+      const parent = await this.categoryModel
+        .findOne({ _id: data.parent })
+        .exec();
+
+      await parent
+        .updateOne({ children: [...parent.children, id] }, { new: true })
+        .exec();
+
+      res = this.categoryModel
+        .findOneAndUpdate(
+          { _id: id },
+          { parentName: parent.title },
+          { new: true },
+        )
+        .exec();
+    }
 
     if (file) {
       const media = await this.fileService.saveFile([file]);

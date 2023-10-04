@@ -18,6 +18,9 @@ export class Category {
   })
   parent: Category;
 
+  @Prop({ type: String })
+  parentName: string;
+
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }])
   children: Category[];
 }
