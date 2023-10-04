@@ -1,1 +1,25 @@
-export class Category {}
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+
+@Schema()
+export class Category {
+  @Prop({ type: String, required: true })
+  title: string;
+
+  @Prop({ type: String })
+  imageUrl: string;
+
+  @Prop({ type: String, required: true })
+  slug: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+  })
+  parent: Category;
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }])
+  children: Category[];
+}
+
+export const CategorySchema = SchemaFactory.createForClass(Category);
