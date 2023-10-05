@@ -57,7 +57,7 @@ export class Shop {
   @Prop({ type: String })
   sunEnd: string;
 
-  @Prop({ type: Boolean })
+  @Prop({ type: Boolean, default: false })
   aroundTheClock: boolean;
 
   @Prop({ type: String })
