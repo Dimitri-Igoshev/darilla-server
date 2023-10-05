@@ -7,8 +7,11 @@ export class UpdateShopDto {
   phone?: string;
   weekStart?: string;
   weekEnd?: string;
-  weekendStart?: string;
-  weekendEnd?: string;
+  satStart?: string;
+  satEnd?: string;
+  sunStart?: string;
+  sunEnd?: string;
+  aroundTheClock?: boolean;
   website?: string;
   emailInfo?: string;
   emailDocs?: string;
@@ -23,6 +26,7 @@ export class UpdateShopDto {
   bank?: string;
   bik?: string;
   paymentAccount?: string;
+  correspondentAccount?: string;
   taxSystem?: TaxSystem;
   contract?: string;
   status?: Status;

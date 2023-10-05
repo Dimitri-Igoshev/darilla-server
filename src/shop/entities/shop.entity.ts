@@ -46,10 +46,19 @@ export class Shop {
   weekEnd: string;
 
   @Prop({ type: String })
-  weekendStart: string;
+  satStart: string;
 
   @Prop({ type: String })
-  weekendEnd: string;
+  satEnd: string;
+
+  @Prop({ type: String })
+  sunStart: string;
+
+  @Prop({ type: String })
+  sunEnd: string;
+
+  @Prop({ type: Boolean })
+  aroundTheClock: boolean;
 
   @Prop({ type: String })
   website: string;
@@ -92,6 +101,9 @@ export class Shop {
 
   @Prop({ type: String })
   paymentAccount: string;
+
+  @Prop({ type: String })
+  correspondentAccount: string;
 
   @Prop({ type: String, enum: TaxSystem, default: TaxSystem.GENERAL })
   taxSystem: TaxSystem;
