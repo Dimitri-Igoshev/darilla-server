@@ -29,19 +29,55 @@ export class FileService {
     for (const file of files) {
       file.originalname = this.getFileName(file);
 
+      let resizedFiles = [];
+
       if (file.mimetype.includes('image')) {
         const buffer = await this.convertToWebP(file.buffer);
-        file.originalname = `${file.originalname.split('.')[0]}.webp`;
-        file.buffer = buffer;
+
+        resizedFiles = [
+          {
+            originalname: `${file.originalname.split('.')[0]}-xl.webp`,
+            buffer: await sharp(buffer).resize(1000, 1000).toBuffer(),
+          },
+          {
+            originalname: `${file.originalname.split('.')[0]}-l.webp`,
+            buffer: await sharp(buffer).resize(600, 600).toBuffer(),
+          },
+          {
+            originalname: `${file.originalname.split('.')[0]}-m.webp`,
+            buffer: await sharp(buffer).resize(400, 400).toBuffer(),
+          },
+          {
+            originalname: `${file.originalname.split('.')[0]}-s.webp`,
+            buffer: await sharp(buffer).resize(200, 200).toBuffer(),
+          },
+          {
+            originalname: `${file.originalname.split('.')[0]}-xs.webp`,
+            buffer: await sharp(buffer).resize(100, 100).toBuffer(),
+          },
+        ];
+
+        // file.originalname = `${file.originalname.split('.')[0]}.webp`;
+        // file.buffer = buffer;
       }
 
-      await writeFile(`${uploadFolder}/${file.originalname}`, file.buffer);
-      res.push({
-        url: `${dateFolder}/${file.originalname}`,
-        name: file.originalname,
+      resizedFiles.forEach((el: MFile) => {
+        writeFile(`${uploadFolder}/${el.originalname}`, el.buffer);
+        res.push({
+          url: `${dateFolder}/${el.originalname}`,
+          name: el.originalname,
+        });
       });
+
+      // await writeFile(`${uploadFolder}/${file.originalname}`, file.buffer);
+      // res.push({
+      //   url: `${dateFolder}/${file.originalname}`,
+      //   name: file.originalname,
+      // });
     }
 
     return res;
   }
 }
+
+// await this.resizeFile(buffer);
