@@ -9,6 +9,9 @@ export class Category {
   @Prop({ type: String })
   imageUrl: string;
 
+  @Prop({ type: String, required: true })
+  slug: string;
+
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
