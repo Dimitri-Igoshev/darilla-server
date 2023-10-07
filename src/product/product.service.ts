@@ -17,11 +17,13 @@ export class ProductService {
     const newProduct = new this.productModel(data);
     const result = await newProduct.save();
 
-    if (files.length) {
+    if (files?.length) {
       const media = await this.fileService.saveFile(files);
 
-      if (media.length) {
-        const imageUrls = media.map((el) => el.url);
+      if (media?.length) {
+        let imageUrls = media.map((el) => el.url);
+        imageUrls = imageUrls.filter((i) => i.includes('-xl.webp'));
+
         return this.productModel
           .findOneAndUpdate(
             { _id: result._id },
@@ -56,11 +58,16 @@ export class ProductService {
       const media = await this.fileService.saveFile(files);
 
       if (media.length) {
-        const imageUrls = media.map((el) => el.url);
+        let imageUrls = media.map((el) => el.url);
+        imageUrls = imageUrls.filter((i) => i.includes('-xl.webp'));
+
         return this.productModel
           .findOneAndUpdate(
             { _id: result._id },
-            { imageUrls: [...result.imageUrls, ...imageUrls] },
+            {
+              imageUrls: [...result.imageUrls, ...imageUrls],
+              mainImageUrl: imageUrls[0],
+            },
             { new: true },
           )
           .exec();
