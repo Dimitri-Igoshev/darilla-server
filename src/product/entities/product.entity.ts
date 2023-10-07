@@ -54,6 +54,9 @@ export class Product {
   })
   status: ProductStatus;
 
+  @Prop({ type: Boolean, default: false })
+  inTop: boolean;
+
   @Prop({ type: Boolean, default: true })
   inStock: boolean;
 
