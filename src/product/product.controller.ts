@@ -8,11 +8,13 @@ import {
   Delete,
   UseInterceptors,
   UploadedFiles,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductStatus } from './entities/product.entity';
 
 @Controller('product')
 export class ProductController {
@@ -28,8 +30,13 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  findAll(
+    @Query('shop') shop: string,
+    @Query('category') category: string,
+    @Query('status') status: ProductStatus,
+    @Query('search') search: string,
+  ) {
+    return this.productService.findAll(shop, category, status, search);
   }
 
   @Get(':id')

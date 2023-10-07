@@ -37,8 +37,15 @@ export class ProductService {
     return result;
   }
 
-  findAll() {
-    return this.productModel.find().exec();
+  findAll(shop: string, category: string, status: string, search: string) {
+    const filter: any = {};
+    if (shop) filter.shop = shop;
+    if (category) filter.categories = category;
+    if (status) filter.status = status;
+    if (search) filter.title = { $regex: search, $options: 'i' };
+
+    // Model.find().skip((pageNumber-1)*limit).limit(limit).exec()
+    return this.productModel.find(filter).limit(20).exec();
   }
 
   findOne(id: string) {
