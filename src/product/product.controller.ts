@@ -35,8 +35,9 @@ export class ProductController {
     @Query('category') category: string,
     @Query('status') status: ProductStatus,
     @Query('search') search: string,
+    @Query('limit') limit: string,
   ) {
-    return this.productService.findAll(shop, category, status, search);
+    return this.productService.findAll(shop, category, status, search, limit);
   }
 
   @Get(':id')
