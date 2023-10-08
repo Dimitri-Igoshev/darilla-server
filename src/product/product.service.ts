@@ -45,7 +45,7 @@ export class ProductService {
     if (search) filter.title = { $regex: search, $options: 'i' };
 
     // Model.find().skip((pageNumber-1)*limit).limit(limit).exec()
-    return this.productModel.find(filter).limit(20).exec();
+    return this.productModel.find(filter).exec();
   }
 
   findOne(id: string) {
