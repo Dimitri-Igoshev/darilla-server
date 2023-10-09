@@ -8,6 +8,21 @@ export interface Structure {
   quantity: number;
 }
 
+export enum Period {
+  SECONDS = 'SECONDS',
+  MINUTES = 'MINUTES',
+  HOURS = 'HOURS',
+  DAYS = 'DAYS',
+  WEEKS = 'WEEKS',
+  MONTHS = 'MONTHS',
+  YEARS = 'YEARS',
+}
+
+export interface ProductionTime {
+  quantity: number;
+  period: Period;
+}
+
 export enum ProductStatus {
   MODERATION = 'MODERATION',
   ACTIVE = 'ACTIVE',
@@ -32,8 +47,8 @@ export class Product {
   @Prop({ type: Number })
   discount: number;
 
-  @Prop({ type: Number })
-  productionTimeMin: number;
+  @Prop({ type: Object })
+  productionTime: ProductionTime;
 
   @Prop({ type: [Object] })
   structures: Structure[];

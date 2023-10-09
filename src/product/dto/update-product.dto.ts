@@ -1,4 +1,4 @@
-import { Structure } from '../entities/product.entity';
+import { ProductionTime, Structure } from '../entities/product.entity';
 
 export class UpdateProductDto {
   title?: string;
@@ -6,7 +6,7 @@ export class UpdateProductDto {
   mainImageUrl?: string;
   price?: number;
   discount?: number;
-  productionTimeMin?: number;
+  productionTime?: ProductionTime;
   structures?: Structure[];
   lengthSm?: number;
   heightSm?: number;
