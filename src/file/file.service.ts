@@ -61,6 +61,15 @@ export class FileService {
         // file.buffer = buffer;
       }
 
+      if (file.mimetype.includes('video')) {
+        resizedFiles.push({
+          originalname: `${file.originalname.split('.')[0]}-video.${
+            file.originalname.split('.')[1]
+          }`,
+          buffer: file.buffer,
+        });
+      }
+
       resizedFiles.forEach((el: MFile) => {
         writeFile(`${uploadFolder}/${el.originalname}`, el.buffer);
         res.push({

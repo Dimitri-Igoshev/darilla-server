@@ -21,13 +21,20 @@ export class ProductService {
       const media = await this.fileService.saveFile(files);
 
       if (media?.length) {
-        let imageUrls = media.map((el) => el.url);
+        let videoUrl = '';
+        let imageUrls = [];
+
+        media.forEach((el) => {
+          !el.url.includes('video')
+            ? (videoUrl = el.url)
+            : imageUrls.push(el.url);
+        });
         imageUrls = imageUrls.filter((i) => i.includes('-xl.webp'));
 
         return this.productModel
           .findOneAndUpdate(
             { _id: result._id },
-            { imageUrls, mainImageUrl: imageUrls[0] },
+            { imageUrls, mainImageUrl: imageUrls[0], videoUrl },
             { new: true },
           )
           .exec();
@@ -74,16 +81,20 @@ export class ProductService {
       const media = await this.fileService.saveFile(files);
 
       if (media.length) {
-        let imageUrls = media.map((el) => el.url);
+        let videoUrl = '';
+        let imageUrls = [];
+
+        media.forEach((el) => {
+          !el.url.includes('video')
+            ? (videoUrl = el.url)
+            : imageUrls.push(el.url);
+        });
         imageUrls = imageUrls.filter((i) => i.includes('-xl.webp'));
 
         return this.productModel
           .findOneAndUpdate(
             { _id: result._id },
-            {
-              imageUrls: [...result.imageUrls, ...imageUrls],
-              mainImageUrl: imageUrls[0],
-            },
+            { imageUrls, mainImageUrl: imageUrls[0], videoUrl },
             { new: true },
           )
           .exec();

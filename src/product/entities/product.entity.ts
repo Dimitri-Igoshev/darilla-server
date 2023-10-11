@@ -41,6 +41,9 @@ export class Product {
   @Prop({ type: String })
   mainImageUrl: string;
 
+  @Prop({ type: String })
+  videoUrl: string;
+
   @Prop({ type: Number })
   price: number;
 
