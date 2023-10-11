@@ -21,23 +21,25 @@ export class ProductService {
       const media = await this.fileService.saveFile(files);
 
       if (media?.length) {
-        let videoUrl = '';
-        let imageUrls = [];
+        const media = await this.fileService.saveFile(files);
 
-        media.forEach((el) => {
-          !el.url.includes('video')
-            ? (videoUrl = el.url)
-            : imageUrls.push(el.url);
-        });
-        imageUrls = imageUrls.filter((i) => i.includes('-xl.webp'));
+        if (media.length) {
+          const urls = media.map((el) => el.url);
+          const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
+          const videoUrl = urls.filter((i) => i.includes('video'));
 
-        return this.productModel
-          .findOneAndUpdate(
-            { _id: result._id },
-            { imageUrls, mainImageUrl: imageUrls[0], videoUrl },
-            { new: true },
-          )
-          .exec();
+          return this.productModel
+            .findOneAndUpdate(
+              { _id: result._id },
+              {
+                imageUrls: [...result.imageUrls, ...imageUrls],
+                mainImageUrl: imageUrls[0],
+                videoUrl: videoUrl[0],
+              },
+              { new: true },
+            )
+            .exec();
+        }
       }
     }
 
@@ -81,20 +83,18 @@ export class ProductService {
       const media = await this.fileService.saveFile(files);
 
       if (media.length) {
-        let videoUrl = '';
-        let imageUrls = [];
-
-        media.forEach((el) => {
-          !el.url.includes('video')
-            ? (videoUrl = el.url)
-            : imageUrls.push(el.url);
-        });
-        imageUrls = imageUrls.filter((i) => i.includes('-xl.webp'));
+        const urls = media.map((el) => el.url);
+        const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
+        const videoUrl = urls.filter((i) => i.includes('video'));
 
         return this.productModel
           .findOneAndUpdate(
             { _id: result._id },
-            { imageUrls, mainImageUrl: imageUrls[0], videoUrl },
+            {
+              imageUrls: [...result.imageUrls, ...imageUrls],
+              mainImageUrl: imageUrls[0],
+              videoUrl: videoUrl[0],
+            },
             { new: true },
           )
           .exec();

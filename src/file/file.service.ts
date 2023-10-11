@@ -33,7 +33,6 @@ export class FileService {
 
       if (file.mimetype.includes('image')) {
         const buffer = await this.convertToWebP(file.buffer);
-
         resizedFiles = [
           {
             originalname: `${file.originalname.split('.')[0]}-xl.webp`,
