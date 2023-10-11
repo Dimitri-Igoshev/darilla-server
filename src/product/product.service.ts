@@ -67,7 +67,7 @@ export class ProductService {
   }
 
   findOne(id: string) {
-    return this.productModel.find({ _id: id }).exec();
+    return this.productModel.findOne({ _id: id }).exec();
   }
 
   async update(
