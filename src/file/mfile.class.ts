@@ -1,6 +1,6 @@
 export class MFile {
   originalname: string;
-  buffer: Buffer;
+  buffer: Buffer | null;
   mimetype?: string;
 
   constructor(file: Express.Multer.File | MFile) {
