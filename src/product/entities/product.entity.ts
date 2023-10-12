@@ -96,7 +96,7 @@ export class Product {
   })
   shop: Shop;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }])
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product', null: true }])
   relatedProducts: Product[];
 }
 

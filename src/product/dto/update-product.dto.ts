@@ -20,5 +20,5 @@ export class UpdateProductDto {
 
   categories?: string[];
   shop?: string;
-  relatedProducts?: string[];
+  relatedProducts?: string[] | null;
 }
