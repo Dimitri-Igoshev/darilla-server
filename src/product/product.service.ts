@@ -67,7 +67,10 @@ export class ProductService {
   }
 
   findOne(id: string) {
-    return this.productModel.findOne({ _id: id }).populate({ path: 'shops', model: 'Shop' }).exec();
+    return this.productModel
+      .findOne({ _id: id })
+      .populate({ path: 'relatedProducts', model: 'Product' })
+      .exec();
   }
 
   async update(
