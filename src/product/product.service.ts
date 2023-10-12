@@ -82,7 +82,7 @@ export class ProductService {
       .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
       .exec();
 
-    if (files.length) {
+    if (files?.length) {
       const media = await this.fileService.saveFile(files);
 
       if (media.length) {
