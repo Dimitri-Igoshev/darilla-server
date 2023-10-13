@@ -28,12 +28,19 @@ export class ProductService {
           const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
           const videoUrl = urls.filter((i) => i.includes('video'));
 
+          const images = imageUrls.map((i: string) => ({
+            url: i,
+            main: false,
+            rank: 0,
+          }));
+
+          images[0].main = true;
+
           return this.productModel
             .findOneAndUpdate(
               { _id: result._id },
               {
-                imageUrls: [...result.imageUrls, ...imageUrls],
-                mainImageUrl: imageUrls[0],
+                images: [...images],
                 videoUrl: videoUrl[0],
               },
               { new: true },
@@ -90,11 +97,19 @@ export class ProductService {
         const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
         const videoUrl = urls.filter((i) => i.includes('video'));
 
+        const images = imageUrls.map((i: string) => ({
+          url: i,
+          main: false,
+          rank: 0,
+        }));
+
+        images[0].main = true;
+
         return this.productModel
           .findOneAndUpdate(
             { _id: result._id },
             {
-              imageUrls: [...result.imageUrls, ...imageUrls],
+              imageUrls: [...result.images, ...images],
               mainImageUrl: imageUrls[0],
               videoUrl: videoUrl[0],
             },

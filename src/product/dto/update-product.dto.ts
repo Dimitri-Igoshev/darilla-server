@@ -2,8 +2,8 @@ import { ProductionTime, Structure } from '../entities/product.entity';
 
 export class UpdateProductDto {
   title?: string;
-  imageUrls?: string[];
-  mainImageUrl?: string;
+  images?: string[];
+  videoUrl?: string;
   price?: number;
   discount?: number;
   productionTime?: ProductionTime;

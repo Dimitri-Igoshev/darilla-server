@@ -3,6 +3,12 @@ import * as mongoose from 'mongoose';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Category } from '../../category/entities/category.entity';
 
+export interface Image {
+  url: string;
+  main: boolean;
+  rank: number;
+}
+
 export interface Structure {
   title: string;
   quantity: number;
@@ -35,11 +41,8 @@ export class Product {
   @Prop({ type: String })
   title: string;
 
-  @Prop({ type: [String] })
-  imageUrls: string[];
-
-  @Prop({ type: String })
-  mainImageUrl: string;
+  @Prop({ type: [Image] })
+  images: Image[];
 
   @Prop({ type: String })
   videoUrl: string;
