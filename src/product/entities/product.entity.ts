@@ -41,7 +41,7 @@ export class Product {
   @Prop({ type: String })
   title: string;
 
-  @Prop({ type: [Image] })
+  @Prop({ type: [Object] })
   images: Image[];
 
   @Prop({ type: String })
