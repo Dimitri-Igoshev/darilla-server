@@ -109,8 +109,7 @@ export class ProductService {
           .findOneAndUpdate(
             { _id: result._id },
             {
-              imageUrls: [...result.images, ...images],
-              mainImageUrl: imageUrls[0],
+              images: [...result.images, ...images],
               videoUrl: videoUrl[0],
             },
             { new: true },
@@ -125,4 +124,22 @@ export class ProductService {
   remove(id: string) {
     return this.productModel.deleteOne({ _id: id }).exec();
   }
+
+  updateMainImage = async (productId: string, mainImageUrl: string) => {
+    const product = await this.findOne(productId);
+    if (!product) return;
+
+    const productImages = [...product.images];
+    productImages.forEach((i) => {
+      i.main = i.url === mainImageUrl;
+    });
+
+    return this.productModel
+      .findOneAndUpdate(
+        { _id: productId },
+        { images: productImages },
+        { new: true },
+      )
+      .exec();
+  };
 }

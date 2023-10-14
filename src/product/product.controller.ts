@@ -59,4 +59,9 @@ export class ProductController {
   remove(@Param('id') id: string) {
     return this.productService.remove(id);
   }
+
+  @Patch('main-image/:id')
+  updateMainImage(@Param(':id') id: string, @Body() body: { url: string }) {
+    return this.productService.updateMainImage(id, body.url);
+  }
 }
