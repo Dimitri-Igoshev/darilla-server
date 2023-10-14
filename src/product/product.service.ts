@@ -134,6 +134,8 @@ export class ProductService {
       i.main = i.url === mainImageUrl;
     });
 
+    console.log(productImages);
+
     return this.productModel
       .findOneAndUpdate(
         { _id: productId },
