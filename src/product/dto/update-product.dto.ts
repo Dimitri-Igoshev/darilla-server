@@ -17,6 +17,7 @@ export class UpdateProductDto {
   viewCount?: number;
   favoriteCount?: number;
   buyCount?: number;
+  rating?: number;
 
   categories?: string[];
   shop?: string;

@@ -68,6 +68,9 @@ export class Product {
   @Prop({ type: String })
   description: string;
 
+  @Prop({ type: Number })
+  rating: number;
+
   @Prop({
     type: String,
     enum: ProductStatus,
