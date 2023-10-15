@@ -60,8 +60,8 @@ export class ProductController {
     return this.productService.remove(id);
   }
 
-  @Patch('main-image/:id')
-  updateMainImage(@Param(':id') id: string, @Body() body: { url: string }) {
-    return this.productService.updateMainImage(id, body.url);
+  @Patch('/main-image')
+  updateMainImage(@Body() body: { id: string; url: string }) {
+    return this.productService.updateMainImage(body);
   }
 }

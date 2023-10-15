@@ -125,23 +125,26 @@ export class ProductService {
     return this.productModel.deleteOne({ _id: id }).exec();
   }
 
-  updateMainImage = async (productId: string, mainImageUrl: string) => {
-    const product = await this.findOne(productId);
-    if (!product) return;
-
-    const productImages = [...product.images];
-    productImages.forEach((i) => {
-      i.main = i.url === mainImageUrl;
-    });
-
-    console.log(productImages);
-
-    return this.productModel
-      .findOneAndUpdate(
-        { _id: productId },
-        { images: productImages },
-        { new: true },
-      )
-      .exec();
+  updateMainImage = async (body) => {
+    console.log(body);
   };
+  //   const product = await this.productModel.findOne({ _id: productId }).exec();
+  //   console.log(1, productId, product);
+  //   if (!product) return;
+  //
+  //   const productImages = [...product.images];
+  //   productImages.forEach((i) => {
+  //     i.main = i.url === mainImageUrl;
+  //   });
+  //
+  //   console.log(productImages);
+  //
+  //   return this.productModel
+  //     .findOneAndUpdate(
+  //       { _id: productId },
+  //       { images: productImages },
+  //       { new: true },
+  //     )
+  //     .exec();
+  // };
 }
