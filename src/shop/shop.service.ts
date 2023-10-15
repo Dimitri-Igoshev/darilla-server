@@ -17,17 +17,26 @@ export class ShopService {
   ) {}
 
   async createShop(shop: CreateShopDto) {
-    const isExist = await this.shopModel.findOne({ title: shop.title });
-
-    if (isExist)
-      throw new HttpException(
-        'Shop with this title is already exists',
-        HttpStatus.CONFLICT,
-      );
+    // const isExist = await this.shopModel.findOne({ title: shop.title });
+    //
+    // if (isExist)
+    //   throw new HttpException(
+    //     'Shop with this title is already exists',
+    //     HttpStatus.CONFLICT,
+    //   );
     const newShop = new this.shopModel({ ...shop, contract: Date.now() });
     const res = await newShop.save();
 
     await this.userService.addShop(shop.owner, res._id.toString());
+
+    return res;
+  }
+
+  async createNewBranch(data) {
+    const newShop = new this.shopModel(data);
+    const res = await newShop.save();
+
+    await this.userService.addShop(data.owner, res._id.toString());
 
     return res;
   }

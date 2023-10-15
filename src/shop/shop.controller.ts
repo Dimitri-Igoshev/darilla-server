@@ -12,6 +12,7 @@ import { ShopService } from './shop.service';
 import { CreateShopDto } from './dto/create-shop.dto';
 import { UpdateShopDto } from './dto/update-shop.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateNewBranchDto } from './dto/create-new-branch.dto'
 
 @Controller('shop')
 export class ShopController {
@@ -20,6 +21,11 @@ export class ShopController {
   @Post()
   createShop(@Body() createShopDto: CreateShopDto) {
     return this.shopService.createShop(createShopDto);
+  }
+
+  @Post('new-branch')
+  createNewBranch(@Body() createNewBranch: CreateNewBranchDto) {
+    return this.shopService.createNewBranch(createNewBranch);
   }
 
   @Post('upload-logo/:id')

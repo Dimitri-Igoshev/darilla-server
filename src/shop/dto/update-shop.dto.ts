@@ -30,4 +30,6 @@ export class UpdateShopDto {
   taxSystem?: TaxSystem;
   contract?: string;
   status?: Status;
+  mainShop?: string;
+  branches?: string[];
 }

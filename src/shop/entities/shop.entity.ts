@@ -27,7 +27,7 @@ export enum TaxSystem {
 
 @Schema()
 export class Shop {
-  @Prop({ type: String, required: true, unique: true })
+  @Prop({ type: String })
   title: string;
 
   @Prop({ type: String })
@@ -131,6 +131,12 @@ export class Shop {
 
   @Prop({ type: String, enum: Status, default: Status.ACTIVE })
   status: Status;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Shop' })
+  mainShop?: Shop;
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Shop' }])
+  branches: Shop[];
 }
 
 export const ShopSchema = SchemaFactory.createForClass(Shop);
