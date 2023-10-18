@@ -7,8 +7,13 @@ export type UserDocument = HydratedDocument<User>;
 
 export enum Role {
   USER = 'USER',
-  SELLER = 'SELLER',
   ADMIN = 'ADMIN',
+  MODERATOR = 'MODERATOR',
+  CONTENT_MANAGER = 'CONTENT_MANAGER',
+  SUPPORT = 'SUPPORT',
+  SELLER = 'SELLER',
+  SALES_PERSON = 'SALES_PERSON',
+  COURIER = 'COURIER',
 }
 
 export enum Status {
