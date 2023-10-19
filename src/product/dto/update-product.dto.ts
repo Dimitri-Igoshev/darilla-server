@@ -12,6 +12,7 @@ export class UpdateProductDto {
   heightSm?: number;
   description?: string;
   status?: string;
+  reasonsForRejection?: string[];
   inStock?: boolean;
 
   viewCount?: number;

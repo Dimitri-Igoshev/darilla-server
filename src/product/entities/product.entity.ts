@@ -78,6 +78,9 @@ export class Product {
   })
   status: ProductStatus;
 
+  @Prop({ type: [String] })
+  reasonsForRejection: string[];
+
   @Prop({ type: Boolean, default: false })
   inTop: boolean;
 
