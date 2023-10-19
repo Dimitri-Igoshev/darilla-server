@@ -6,8 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
-} from '@nestjs/common';
+  UseGuards, Query
+} from "@nestjs/common";
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -30,8 +30,8 @@ export class UserController {
   }
 
   @Get()
-  getUsers() {
-    return this.userService.getUsers();
+  getUsers(@Query('role') role: string, @Query('search') search: string, @Query('page') page: number, @Query('quantity') quantity: number) {
+    return this.userService.getUsers({ role, search, page, quantity });
   }
 
   @Get(':id')

@@ -26,8 +26,22 @@ export class UserService {
     return newUser.save();
   }
 
-  getUsers() {
-    return this.userModel.find().select('-password');
+  getUsers({ role, search, page, quantity }) {
+    const filter: any = {};
+    if (role) filter.roles = role;
+    if (search) {
+      filter.firstName = { $regex: search, $options: 'i' };
+      filter.lastName = { $regex: search, $options: 'i' };
+      filter.email = { $regex: search, $options: 'i' };
+    }
+    const num: number = quantity || 15;
+    const skip: number = page === 1 ? 0 : (page - 1) * num;
+
+    return this.userModel
+      .find(filter)
+      .select('-password')
+      .skip(skip)
+      .limit(num);
   }
 
   getUserById(id: string) {
