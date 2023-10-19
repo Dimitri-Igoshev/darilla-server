@@ -29,19 +29,20 @@ export class UserService {
   getUsers({ role, search, page, quantity }) {
     const filter: any = {};
     if (role) filter.roles = role;
-    if (search) {
-      filter.firstName = { $regex: search, $options: 'i' };
-      filter.lastName = { $regex: search, $options: 'i' };
-      filter.email = { $regex: search, $options: 'i' };
-    }
     const num: number = quantity || 15;
     const skip: number = page === 1 ? 0 : (page - 1) * num;
 
     return this.userModel
       .find(filter)
+      .or([
+        { firstName: { $regex: search, $options: 'i' } },
+        { lastName: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+      ])
       .select('-password')
       .skip(skip)
-      .limit(num);
+      .limit(num)
+      .exec();
   }
 
   getUserById(id: string) {
