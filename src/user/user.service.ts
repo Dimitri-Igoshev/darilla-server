@@ -5,14 +5,19 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Role, User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { FileService } from '../file/file.service';
+import { MFile } from '../file/mfile.class';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private readonly fileService: FileService,
+  ) {}
 
   saltOrRounds = 12;
 
-  async createUser(user: CreateUserDto) {
+  async createUser(user: CreateUserDto, file: MFile) {
     const isExist = await this.getUserByEmail(user.email);
 
     if (isExist)
@@ -20,33 +25,60 @@ export class UserService {
 
     const newUser = new this.userModel({
       ...user,
-      password: await bcrypt.hash(user.password, this.saltOrRounds),
+      password: user.password
+        ? await bcrypt.hash(user.password, this.saltOrRounds)
+        : await bcrypt.hash('111111', this.saltOrRounds),
     });
 
-    return newUser.save();
+    const savedUser = await newUser.save();
+
+    if (!file) return savedUser;
+
+    const res = await this.fileService.saveFile([file]);
+
+    if (res && res[0]?.url) {
+      return this.userModel.findOneAndUpdate(
+        { _id: savedUser._id },
+        { photo: res[0].url },
+        { new: true },
+      );
+    } else {
+      return savedUser;
+    }
   }
 
-  getUsers({ role, search, page, quantity }) {
+  async getUsers({ role, search, limit }) {
     const filter: any = {};
     if (role) filter.roles = role;
-    const num: number = quantity || 15;
-    // const skip: number = page === 1 ? 0 : (page - 1) * num;
-    const limit = num * page;
 
-    return (
-      this.userModel
-        .find(filter)
-        .or([
-          { firstName: { $regex: search, $options: 'i' } },
-          { lastName: { $regex: search, $options: 'i' } },
-          { email: { $regex: search, $options: 'i' } },
-        ])
-        .select('-password')
-        // .skip(skip)
-        // .limit(num)
-        .limit(limit)
-        .exec()
-    );
+    let res = [];
+
+    await this.userModel
+      .find(filter)
+      .or([
+        { firstName: { $regex: search, $options: 'i' } },
+        { lastName: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+      ])
+      .select('-password')
+      .limit(limit)
+      .exec()
+      .then((data) => (res = [...data]));
+
+    if (role === Role.USER) {
+      return res.filter(
+        (i: User) =>
+          !i.roles.includes(Role.MODERATOR) &&
+          !i.roles.includes(Role.SELLER) &&
+          !i.roles.includes(Role.SUPPORT) &&
+          !i.roles.includes(Role.SALES_PERSON) &&
+          !i.roles.includes(Role.CONTENT_MANAGER) &&
+          !i.roles.includes(Role.ADMIN) &&
+          !i.roles.includes(Role.COURIER),
+      );
+    } else {
+      return res;
+    }
   }
 
   getUserById(id: string) {
@@ -61,7 +93,12 @@ export class UserService {
     return this.userModel.findOne({ email: email }).exec();
   }
 
-  updateUser(id: string, user: UpdateUserDto) {
+  async updateUser(id: string, user: UpdateUserDto, file: MFile) {
+    if (file) {
+      const res = await this.fileService.saveFile([file]);
+      if (res && res[0]?.url) user.photo = res[0].url;
+    }
+
     return this.userModel
       .findOneAndUpdate({ _id: id }, { ...user }, { new: true })
       .select('-password')

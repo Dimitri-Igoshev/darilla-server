@@ -6,13 +6,17 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards, Query
-} from "@nestjs/common";
+  UseGuards,
+  Query,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtGuard } from '../auth/jwt.guard';
 import { UserId } from '../decorators/user-id.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @UseGuards(JwtGuard)
 @Controller('user')
@@ -25,13 +29,21 @@ export class UserController {
   }
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
+  @UseInterceptors(FileInterceptor('file'))
+  createUser(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.userService.createUser(createUserDto, file);
   }
 
   @Get()
-  getUsers(@Query('role') role: string, @Query('search') search: string, @Query('page') page: number, @Query('quantity') quantity: number) {
-    return this.userService.getUsers({ role, search, page, quantity });
+  getUsers(
+    @Query('role') role: string,
+    @Query('search') search: string,
+    @Query('limit') limit: number,
+  ) {
+    return this.userService.getUsers({ role, search, limit });
   }
 
   @Get(':id')
@@ -40,8 +52,13 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(id, updateUserDto);
+  @UseInterceptors(FileInterceptor('file'))
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.userService.updateUser(id, updateUserDto, file);
   }
 
   @Delete(':id')

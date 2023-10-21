@@ -54,10 +54,13 @@ export class AuthService {
     if (isExist)
       throw new HttpException('User is already exists', HttpStatus.CONFLICT);
 
-    return await this.userService.createUser({
-      ...user,
-      status: Status.ACTIVE,
-    });
+    return await this.userService.createUser(
+      {
+        ...user,
+        status: Status.ACTIVE,
+      },
+      null,
+    );
 
     // user.confirmToken = await this.createToken({ email: user.email }, '30d');
 
