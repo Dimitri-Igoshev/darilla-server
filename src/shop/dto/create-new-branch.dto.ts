@@ -2,7 +2,7 @@ export class CreateNewBranchDto {
   owner: string;
   mainShop: string;
   title: string;
-  website: string;
+  website?: string;
   address: string;
   phone?: string;
   description?: string;
