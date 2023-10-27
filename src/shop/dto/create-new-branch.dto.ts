@@ -4,6 +4,9 @@ export class CreateNewBranchDto {
   title: string;
   website?: string;
   address: string;
+  city?: string;
+  geoLat?: string;
+  geoLon?: string;
   phone?: string;
   description?: string;
   descriptionFull?: string;

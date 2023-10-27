@@ -3,7 +3,10 @@ import { Status, TaxSystem } from '../entities/shop.entity';
 export class UpdateShopDto {
   title: string;
   logoUrl?: string;
-  address: string;
+  address?: string;
+  city?: string;
+  geoLat?: string;
+  geoLon?: string;
   phone?: string;
   weekStart?: string;
   weekEnd?: string;

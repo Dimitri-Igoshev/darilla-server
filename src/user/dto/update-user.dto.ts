@@ -4,6 +4,10 @@ export class UpdateUserDto {
   patronymic?: string;
   photo?: string;
   phone?: string;
+  address?: string;
+  city?: string;
+  geoLat?: string;
+  geoLon?: string;
   roles?: string[];
   status?: string;
   shops?: string[];

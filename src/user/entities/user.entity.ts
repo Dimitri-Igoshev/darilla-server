@@ -45,6 +45,18 @@ export class User {
   @Prop()
   phone: string;
 
+  @Prop()
+  address: string;
+
+  @Prop()
+  city: string;
+
+  @Prop()
+  geoLat: string;
+
+  @Prop()
+  geoLon: string;
+
   @Prop({ type: [String], enum: Role, default: Role.USER })
   roles: Role[];
 

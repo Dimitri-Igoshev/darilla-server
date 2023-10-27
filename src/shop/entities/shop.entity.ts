@@ -36,6 +36,15 @@ export class Shop {
   @Prop({ type: String, required: true })
   address: string;
 
+  @Prop()
+  city: string;
+
+  @Prop()
+  geoLat: string;
+
+  @Prop()
+  geoLon: string;
+
   @Prop({ type: String })
   phone: string;
 
