@@ -59,6 +59,7 @@ export class UserService {
         { firstName: { $regex: search, $options: 'i' } },
         { lastName: { $regex: search, $options: 'i' } },
         { email: { $regex: search, $options: 'i' } },
+        { address: { $regex: search, $options: 'i' } },
       ])
       .select('-password')
       .limit(limit)
