@@ -51,6 +51,11 @@ export class UserController {
     return this.userService.getUserById(id);
   }
 
+  @Get('staff/:shopId')
+  findShopStaff(@Param('shopId') shopId: string) {
+    return this.userService.getShopStaff(shopId);
+  }
+
   @Patch(':id')
   @UseInterceptors(FileInterceptor('file'))
   update(

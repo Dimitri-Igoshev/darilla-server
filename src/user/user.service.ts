@@ -120,4 +120,8 @@ export class UserService {
       )
       .exec();
   }
+
+  getShopStaff(shopId: string) {
+    return this.userModel.find({ shops: shopId }).select('-password').exec();
+  }
 }
