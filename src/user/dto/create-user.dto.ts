@@ -8,6 +8,7 @@ export class CreateUserDto {
   patronymic?: string;
   photo?: string;
   phone?: string;
+  acceptingOrders?: string;
   address?: string;
   city?: string;
   geoLat?: string;

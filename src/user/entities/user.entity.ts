@@ -45,6 +45,9 @@ export class User {
   @Prop()
   phone: string;
 
+  @Prop({ default: false })
+  acceptingOrders: boolean;
+
   @Prop()
   address: string;
 

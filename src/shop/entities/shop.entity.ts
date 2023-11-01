@@ -138,7 +138,7 @@ export class Shop {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: User;
 
-  @Prop({ type: String, enum: Status, default: Status.ACTIVE })
+  @Prop({ type: String, enum: Status, default: Status.PADDING })
   status: Status;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Shop' })

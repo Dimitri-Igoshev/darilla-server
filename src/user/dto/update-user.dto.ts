@@ -4,6 +4,7 @@ export class UpdateUserDto {
   patronymic?: string;
   photo?: string;
   phone?: string;
+  acceptingOrders?: boolean;
   address?: string;
   city?: string;
   geoLat?: string;

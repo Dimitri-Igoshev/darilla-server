@@ -47,8 +47,20 @@ export class ShopService {
       .exec();
   }
 
-  getShops() {
-    return this.shopModel.find();
+  getShops({ status, search, limit }) {
+    const filter: any = {};
+    if (status) filter.status = status;
+
+    return this.shopModel
+      .find(filter)
+      .or([
+        { title: { $regex: search, $options: 'i' } },
+        { address: { $regex: search, $options: 'i' } },
+        { phone: { $regex: search, $options: 'i' } },
+        { website: { $regex: search, $options: 'i' } },
+      ])
+      .limit(limit)
+      .exec();
   }
 
   getShopById(id: string) {
@@ -81,5 +93,9 @@ export class ShopService {
     }
 
     return false;
+  }
+
+  removeShop(id: string) {
+    return this.shopModel.deleteOne({ _id: id }).exec();
   }
 }
