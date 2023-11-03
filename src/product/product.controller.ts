@@ -64,4 +64,9 @@ export class ProductController {
   updateMainImage(@Body() body: { id: string; url: string }) {
     return this.productService.updateMainImage(body);
   }
+
+  @Post('update/favorites')
+  updateFavorites(@Body() data: { productId: string; userId: string }) {
+    return this.productService.updateFavorites(data);
+  }
 }

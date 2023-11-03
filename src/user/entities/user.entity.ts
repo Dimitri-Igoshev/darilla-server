@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Shop } from '../../shop/entities/shop.entity';
 import * as mongoose from 'mongoose';
+import { Product } from '../../product/entities/product.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -59,6 +60,9 @@ export class User {
 
   @Prop()
   geoLon: string;
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }])
+  favorites: Product[];
 
   @Prop({ type: [String], enum: Role, default: Role.USER })
   roles: Role[];

@@ -12,6 +12,7 @@ export class UpdateUserDto {
   roles?: string[];
   status?: string;
   shops?: string[];
+  favorites?: string[];
   refreshToken?: string;
   resetToken?: string;
   confirmToken?: string;
