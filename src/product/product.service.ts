@@ -149,7 +149,7 @@ export class ProductService {
   updateFavorites = async ({ productId, userId }) => {
     const user = await this.userService.getUserById(userId);
     const favorites = user.favorites.includes(productId)
-      ? user.favorites.filter((i) => i !== productId)
+      ? user.favorites.filter((i: Product | any) => i._id !== productId)
       : [...user.favorites, productId];
 
     return this.userService.updateUser(userId, { favorites }, null);
