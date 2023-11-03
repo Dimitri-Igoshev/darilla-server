@@ -33,6 +33,9 @@ export class Shop {
   @Prop({ type: String })
   logoUrl: string;
 
+  @Prop({ type: Number })
+  rating: number;
+
   @Prop({ type: String, required: true })
   address: string;
 

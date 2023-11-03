@@ -76,7 +76,10 @@ export class ProductService {
   findOne(id: string) {
     return this.productModel
       .findOne({ _id: id })
-      .populate({ path: 'relatedProducts', model: 'Product' })
+      .populate([
+        { path: 'relatedProducts', model: 'Product' },
+        { path: 'shop', model: 'Shop' },
+      ])
       .exec();
   }
 
@@ -137,11 +140,7 @@ export class ProductService {
     console.log(productImages);
 
     return this.productModel
-      .findOneAndUpdate(
-        { _id: id },
-        { images: productImages },
-        { new: true },
-      )
+      .findOneAndUpdate({ _id: id }, { images: productImages }, { new: true })
       .exec();
   };
 }
