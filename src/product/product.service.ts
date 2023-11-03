@@ -5,14 +5,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from './entities/product.entity';
 import { FileService } from '../file/file.service';
-import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
-    private readonly fileService: FileService,
-    private readonly userService: UserService,
+    private readonly fileService: FileService
   ) {}
 
   async create(files: Express.Multer.File[], data: CreateProductDto) {
@@ -142,15 +140,5 @@ export class ProductService {
     return this.productModel
       .findOneAndUpdate({ _id: id }, { images: productImages }, { new: true })
       .exec();
-  };
-
-  updateFavorites = async ({ productId, userId }) => {
-    const user = await this.userService.getUserById(userId);
-
-    const favorites = user.favorites.includes(productId)
-      ? user.favorites.filter((i: Product | any) => i.toString() !== productId)
-      : [...user.favorites, productId];
-
-    return this.userService.updateUser(userId, { favorites }, null);
   };
 }
