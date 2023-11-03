@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Category } from '../../category/entities/category.entity';
+import { Feedback } from '../../feedback/entities/feedback.entity';
 
 export interface Image {
   url: string;
@@ -80,6 +81,9 @@ export class Product {
 
   @Prop({ type: [String] })
   reasonsForRejection: string[];
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback' }])
+  feedbacks: Feedback[];
 
   @Prop({ type: Boolean, default: false })
   inTop: boolean;

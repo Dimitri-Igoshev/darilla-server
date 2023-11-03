@@ -3,6 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import { Shop } from '../../shop/entities/shop.entity';
 import * as mongoose from 'mongoose';
 import { Product } from '../../product/entities/product.entity';
+import { Feedback } from '../../feedback/entities/feedback.entity'
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -63,6 +64,9 @@ export class User {
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }])
   favorites: Product[];
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback' }])
+  feedbacks: Feedback[];
 
   @Prop({ type: [String], enum: Role, default: Role.USER })
   roles: Role[];

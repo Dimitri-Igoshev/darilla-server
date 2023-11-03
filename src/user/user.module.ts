@@ -7,7 +7,9 @@ import { FileService } from '../file/file.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema }
+    ]),
   ],
   controllers: [UserController],
   providers: [UserService, FileService],

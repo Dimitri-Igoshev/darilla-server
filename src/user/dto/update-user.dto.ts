@@ -13,6 +13,7 @@ export class UpdateUserDto {
   status?: string;
   shops?: string[];
   favorites?: string[];
+  feedbacks?: string[];
   refreshToken?: string;
   resetToken?: string;
   confirmToken?: string;
