@@ -7,6 +7,7 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { FileService } from '../file/file.service';
 import { MFile } from '../file/mfile.class';
+import { Product } from '../product/entities/product.entity'
 
 @Injectable()
 export class UserService {
@@ -124,4 +125,14 @@ export class UserService {
   getShopStaff(shopId: string) {
     return this.userModel.find({ shops: shopId }).select('-password').exec();
   }
+
+  updateFavorites = async ({ productId, userId }) => {
+    const user = await this.getUserById(userId);
+
+    const favorites = user.favorites.includes(productId)
+      ? user.favorites.filter((i: Product | any) => i.toString() !== productId)
+      : [...user.favorites, productId];
+
+    return this.updateUser(userId, { favorites }, null);
+  };
 }

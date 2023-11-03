@@ -70,4 +70,9 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.userService.removeUser(id);
   }
+
+  @Patch('update/favorites')
+  updateFavorites(@Body() data: { productId: string; userId: string }) {
+    return this.userService.updateFavorites(data);
+  }
 }
