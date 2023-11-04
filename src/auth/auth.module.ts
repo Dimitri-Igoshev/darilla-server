@@ -6,18 +6,24 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
-import { FileService } from '../file/file.service';
+import { CommonModule } from '../common/common.module';
+import { ProductService } from '../product/product.service';
+import { Product, ProductSchema } from '../product/entities/product.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Product.name, schema: ProductSchema },
+    ]),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '7d' },
     }),
+    CommonModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, FileService],
+  providers: [AuthService, UserService, ProductService],
 })
 export class AuthModule {}

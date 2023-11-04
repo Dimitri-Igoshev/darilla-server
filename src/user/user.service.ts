@@ -7,13 +7,15 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { FileService } from '../file/file.service';
 import { MFile } from '../file/mfile.class';
-import { Product } from '../product/entities/product.entity'
+import { Product } from '../product/entities/product.entity';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     private readonly fileService: FileService,
+    private readonly productService: ProductService,
   ) {}
 
   saltOrRounds = 12;
@@ -128,10 +130,17 @@ export class UserService {
 
   updateFavorites = async ({ productId, userId }) => {
     const user = await this.getUserById(userId);
+    const product = await this.productService.findOne(productId);
 
     const favorites = user.favorites.includes(productId)
       ? user.favorites.filter((i: Product | any) => i.toString() !== productId)
       : [...user.favorites, productId];
+
+    await this.productService.update(productId, null, {
+      favoriteCount: user.favorites.includes(productId)
+        ? product.favoriteCount - 1
+        : product.favoriteCount + 1,
+    });
 
     return this.updateUser(userId, { favorites }, null);
   };

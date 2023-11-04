@@ -1,5 +1,3 @@
-import { Prop } from "@nestjs/mongoose";
-
 export class CreateUserDto {
   email: string;
   password?: string;

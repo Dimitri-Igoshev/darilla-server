@@ -8,6 +8,7 @@ import { ProductModule } from './product/product.module';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     AuthModule,
     FileModule,
     FeedbackModule,
+    CommonModule,
   ],
 })
 export class AppModule {}
