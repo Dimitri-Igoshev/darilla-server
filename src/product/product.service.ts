@@ -10,7 +10,7 @@ import { FileService } from '../file/file.service';
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
-    private readonly fileService: FileService
+    private readonly fileService: FileService,
   ) {}
 
   async create(files: Express.Multer.File[], data: CreateProductDto) {
@@ -140,5 +140,19 @@ export class ProductService {
     return this.productModel
       .findOneAndUpdate({ _id: id }, { images: productImages }, { new: true })
       .exec();
+  };
+
+  updateFavorites = async ({ productId, add }) => {
+    const product = await this.findOne(productId);
+
+    return await this.update(productId, null, {
+      favoriteCount: add
+        ? product.favoriteCount
+          ? product.favoriteCount + 1
+          : 1
+        : product.favoriteCount
+        ? product.favoriteCount - 1
+        : 0,
+    });
   };
 }

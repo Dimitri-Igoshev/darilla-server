@@ -64,4 +64,9 @@ export class ProductController {
   updateMainImage(@Body() body: { id: string; url: string }) {
     return this.productService.updateMainImage(body);
   }
+
+  @Patch('update/favorites')
+  updateFavorites(@Body() body: { productId: string; add: boolean }) {
+    return this.productService.updateFavorites(body);
+  }
 }
