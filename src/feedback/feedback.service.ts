@@ -12,15 +12,15 @@ export class FeedbackService {
     return `This action returns all feedback`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} feedback`;
   }
 
-  update(id: number, updateFeedbackDto: UpdateFeedbackDto) {
+  update(id: string, updateFeedbackDto: UpdateFeedbackDto) {
     return `This action updates a #${id} feedback`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} feedback`;
   }
 }
