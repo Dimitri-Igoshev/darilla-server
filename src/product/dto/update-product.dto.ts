@@ -1,6 +1,4 @@
-import { Product, ProductionTime, Structure } from '../entities/product.entity'
-import { Prop } from '@nestjs/mongoose'
-import mongoose from 'mongoose'
+import { ProductionTime, Structure } from '../entities/product.entity'
 
 export class UpdateProductDto {
   title?: string;
@@ -25,5 +23,5 @@ export class UpdateProductDto {
   categories?: string[];
   shop?: string;
   relatedProducts?: string[] | null;
-  feedbacks?: string[];
+  feedbacks?: any[];
 }

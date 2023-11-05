@@ -25,6 +25,16 @@ export class FeedbackController {
     return this.feedbackService.findAll();
   }
 
+  @Get('product/:id')
+  findByProductId(@Param('id') id: string) {
+    return this.feedbackService.findByProductId(id);
+  }
+
+  @Get('author/:id')
+  findByAuthorId(@Param('id') id: string) {
+    return this.feedbackService.findByAuthorId(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.feedbackService.findOne(id);
