@@ -14,12 +14,7 @@ export class FeedbackService {
   ) {}
 
   async create(files: Express.Multer.File[], data: CreateFeedbackDto) {
-    const newFeedback = new this.feedbackModel({
-      ...data,
-      service: +data.service,
-      priceQuality: +data.priceQuality,
-      delivery: +data.delivery,
-    });
+    const newFeedback = new this.feedbackModel(data);
     const result = await newFeedback.save();
 
     if (!files?.length) return result;
@@ -28,9 +23,11 @@ export class FeedbackService {
     if (!media?.length) return result;
 
     const urls = media.map((el) => el.url);
+    const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
+
     return this.feedbackModel.findByIdAndUpdate(
-      { id: result._id },
-      { images: urls },
+      { _id: result._id },
+      { images: imageUrls },
       { new: true },
     );
   }
@@ -75,9 +72,11 @@ export class FeedbackService {
     if (!media?.length) return result;
 
     const urls = media.map((el) => el.url);
+    const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
+
     return this.feedbackModel.findByIdAndUpdate(
-      { id: result._id },
-      { images: urls },
+      { _id: result._id },
+      { images: imageUrls },
       { new: true },
     );
   }

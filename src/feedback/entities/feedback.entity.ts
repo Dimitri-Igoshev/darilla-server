@@ -39,4 +39,4 @@ export class Feedback {
   product: Product;
 }
 
-export const FeedbackSchema = SchemaFactory.createForClass(Feedback)
+export const FeedbackSchema = SchemaFactory.createForClass(Feedback);
