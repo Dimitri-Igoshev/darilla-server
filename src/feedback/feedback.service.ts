@@ -40,6 +40,7 @@ export class FeedbackService {
     return this.feedbackModel
       .find({ product: id })
       .populate({ path: 'author', model: 'User' })
+      .sort({ date: -1 })
       .exec();
   }
 
