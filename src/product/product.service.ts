@@ -20,34 +20,34 @@ export class ProductService {
     if (files?.length) {
       const media = await this.fileService.saveFile(files);
 
+      // if (media?.length) {
+      //   const media = await this.fileService.saveFile(files);
+
       if (media?.length) {
-        const media = await this.fileService.saveFile(files);
+        const urls = media.map((el) => el.url);
+        const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
+        const videoUrl = urls.filter((i) => i.includes('video'));
 
-        if (media.length) {
-          const urls = media.map((el) => el.url);
-          const imageUrls = urls.filter((i) => i.includes('-xl.webp'));
-          const videoUrl = urls.filter((i) => i.includes('video'));
+        const images = imageUrls.map((i: string) => ({
+          url: i,
+          main: false,
+          rank: 0,
+        }));
 
-          const images = imageUrls.map((i: string) => ({
-            url: i,
-            main: false,
-            rank: 0,
-          }));
+        images[0].main = true;
 
-          images[0].main = true;
-
-          return this.productModel
-            .findOneAndUpdate(
-              { _id: result._id },
-              {
-                images: [...images],
-                videoUrl: videoUrl[0],
-              },
-              { new: true },
-            )
-            .exec();
-        }
+        return this.productModel
+          .findOneAndUpdate(
+            { _id: result._id },
+            {
+              images: [...images],
+              videoUrl: videoUrl[0],
+            },
+            { new: true },
+          )
+          .exec();
       }
+      // }
     }
 
     return result;

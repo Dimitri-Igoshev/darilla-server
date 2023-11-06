@@ -4,25 +4,33 @@ import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Feedback } from './entities/feedback.entity';
-import { ProductService } from '../product/product.service';
+import { FileService } from '../file/file.service';
 
 @Injectable()
 export class FeedbackService {
   constructor(
     @InjectModel(Feedback.name) private feedbackModel: Model<Feedback>,
-    private readonly productService: ProductService,
+    private readonly fileService: FileService,
   ) {}
 
-  async create(createFeedbackDto: CreateFeedbackDto) {
-    // const product = await this.productService.findOne(
-    //   createFeedbackDto.product,
-    // );
-    //
-    // await this.productService.update(createFeedbackDto.product, null, {
-    //   feedbacks: [feedback._id, ...product.feedbacks],
-    // });
+  async create(
+    files: Express.Multer.File[],
+    createFeedbackDto: CreateFeedbackDto,
+  ) {
+    const newFeedback = new this.feedbackModel(createFeedbackDto);
+    const result = await newFeedback.save();
 
-    return await new this.feedbackModel(createFeedbackDto).save();
+    if (!files?.length) return result;
+
+    const media = await this.fileService.saveFile(files);
+    if (!media?.length) return result;
+
+    const urls = media.map((el) => el.url);
+    return this.feedbackModel.findByIdAndUpdate(
+      { id: result._id },
+      { images: urls },
+      { new: true },
+    );
   }
 
   findAll() {
@@ -50,10 +58,26 @@ export class FeedbackService {
       .exec();
   }
 
-  update(id: string, updateFeedbackDto: UpdateFeedbackDto) {
-    return this.feedbackModel
+  async update(
+    id: string,
+    files: Express.Multer.File[],
+    updateFeedbackDto: UpdateFeedbackDto,
+  ) {
+    const result = await this.feedbackModel
       .findOneAndUpdate({ _id: id }, { ...updateFeedbackDto }, { new: true })
       .exec();
+
+    if (!files?.length) return result;
+
+    const media = await this.fileService.saveFile(files);
+    if (!media?.length) return result;
+
+    const urls = media.map((el) => el.url);
+    return this.feedbackModel.findByIdAndUpdate(
+      { id: result._id },
+      { images: urls },
+      { new: true },
+    );
   }
 
   remove(id: string) {
