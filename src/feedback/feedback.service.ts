@@ -13,11 +13,13 @@ export class FeedbackService {
     private readonly fileService: FileService,
   ) {}
 
-  async create(
-    files: Express.Multer.File[],
-    createFeedbackDto: CreateFeedbackDto,
-  ) {
-    const newFeedback = new this.feedbackModel(createFeedbackDto);
+  async create(files: Express.Multer.File[], data: CreateFeedbackDto) {
+    const newFeedback = new this.feedbackModel({
+      ...data,
+      service: +data.service,
+      priceQuality: +data.priceQuality,
+      delivery: +data.delivery,
+    });
     const result = await newFeedback.save();
 
     if (!files?.length) return result;
