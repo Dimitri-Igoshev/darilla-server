@@ -8,6 +8,7 @@ import { CommonModule } from '../common/common.module';
 import { Feedback, FeedbackSchema } from './entities/feedback.entity';
 import { ProductService } from '../product/product.service';
 import { UserService } from '../user/user.service';
+import { Shop, ShopSchema } from '../shop/entities/shop.entity';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserService } from '../user/user.service';
       { name: Feedback.name, schema: FeedbackSchema },
       { name: Product.name, schema: ProductSchema },
       { name: User.name, schema: UserSchema },
+      { name: Shop.name, schema: ShopSchema },
     ]),
     CommonModule,
   ],

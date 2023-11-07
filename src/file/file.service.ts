@@ -5,7 +5,6 @@ import { path } from 'app-root-path';
 import { ensureDir, writeFile } from 'fs-extra';
 import * as sharp from 'sharp';
 import { MFile } from './mfile.class';
-// import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FileService {

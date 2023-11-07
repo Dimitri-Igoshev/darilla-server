@@ -3,7 +3,7 @@ import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Feedback } from './entities/feedback.entity';
+import { Feedback, FeedbackStatus } from './entities/feedback.entity';
 import { FileService } from '../file/file.service';
 
 @Injectable()
@@ -14,6 +14,9 @@ export class FeedbackService {
   ) {}
 
   async create(files: Express.Multer.File[], data: CreateFeedbackDto) {
+    if (data.service == 1 || data.priceQuality == 1 || data.delivery == 1)
+      data.status = FeedbackStatus.MODERATION;
+
     const newFeedback = new this.feedbackModel(data);
     const result = await newFeedback.save();
 
@@ -33,7 +36,11 @@ export class FeedbackService {
   }
 
   findAll() {
-    return this.feedbackModel.find().exec();
+    return this.feedbackModel
+      .find()
+      .populate({ path: 'author', model: 'User' })
+      .sort({ created: -1 })
+      .exec();
   }
 
   findByProductId(id: string) {
@@ -48,6 +55,15 @@ export class FeedbackService {
     return this.feedbackModel
       .find({ author: id })
       .populate({ path: 'product', model: 'Product' })
+      .sort({ created: -1 })
+      .exec();
+  }
+
+  findByShopId(id: string) {
+    return this.feedbackModel
+      .find({ shop: id })
+      .populate({ path: 'author', model: 'User' })
+      .sort({ created: -1 })
       .exec();
   }
 
@@ -61,10 +77,13 @@ export class FeedbackService {
   async update(
     id: string,
     files: Express.Multer.File[],
-    updateFeedbackDto: UpdateFeedbackDto,
+    data: UpdateFeedbackDto,
   ) {
+    if (data.service == 1 || data.priceQuality == 1 || data.delivery == 1)
+      data.status = FeedbackStatus.MODERATION;
+
     const result = await this.feedbackModel
-      .findOneAndUpdate({ _id: id }, { ...updateFeedbackDto }, { new: true })
+      .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
       .exec();
 
     if (!files?.length) return result;
@@ -77,7 +96,7 @@ export class FeedbackService {
 
     return this.feedbackModel.findByIdAndUpdate(
       { _id: result._id },
-      { images: imageUrls },
+      { images: [...result.images, ...imageUrls] },
       { new: true },
     );
   }

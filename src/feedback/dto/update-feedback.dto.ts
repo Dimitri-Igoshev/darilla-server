@@ -1,3 +1,5 @@
+import { FeedbackStatus } from '../entities/feedback.entity';
+
 export class UpdateFeedbackDto {
   created?: Date;
   service?: number;
@@ -5,4 +7,6 @@ export class UpdateFeedbackDto {
   delivery?: number;
   text?: string;
   images?: string[];
+  status?: FeedbackStatus;
+  isNew?: boolean;
 }

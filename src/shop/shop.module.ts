@@ -6,8 +6,9 @@ import { Shop, ShopSchema } from './entities/shop.entity';
 import { User, UserSchema } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { CommonModule } from '../common/common.module';
-import { Product, ProductSchema } from '../product/entities/product.entity'
-import { ProductService } from '../product/product.service'
+import { Product, ProductSchema } from '../product/entities/product.entity';
+import { ProductService } from '../product/product.service';
+import { Feedback, FeedbackSchema } from '../feedback/entities/feedback.entity';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ProductService } from '../product/product.service'
       { name: Shop.name, schema: ShopSchema },
       { name: User.name, schema: UserSchema },
       { name: Product.name, schema: ProductSchema },
+      { name: Feedback.name, schema: FeedbackSchema },
     ]),
     CommonModule,
   ],

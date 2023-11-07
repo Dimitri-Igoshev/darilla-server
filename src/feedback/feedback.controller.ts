@@ -42,6 +42,11 @@ export class FeedbackController {
     return this.feedbackService.findByAuthorId(id);
   }
 
+  @Get('shop/:id')
+  findByShopId(@Param('id') id: string) {
+    return this.feedbackService.findByShopId(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.feedbackService.findOne(id);
