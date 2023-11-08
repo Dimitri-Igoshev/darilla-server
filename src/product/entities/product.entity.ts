@@ -85,6 +85,9 @@ export class Product {
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback' }])
   feedbacks: Feedback[];
 
+  @Prop({ type: Number })
+  averageRating: number;
+
   @Prop({ type: Boolean, default: false })
   inTop: boolean;
 

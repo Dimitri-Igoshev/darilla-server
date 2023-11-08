@@ -24,4 +24,5 @@ export class UpdateProductDto {
   shop?: string;
   relatedProducts?: string[] | null;
   feedbacks?: any[];
+  averageRating?: number;
 }

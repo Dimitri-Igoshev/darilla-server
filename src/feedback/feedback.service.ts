@@ -5,12 +5,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Feedback, FeedbackStatus } from './entities/feedback.entity';
 import { FileService } from '../file/file.service';
+import { ProductService } from '../product/product.service';
+import { ShopService } from '../shop/shop.service';
 
 @Injectable()
 export class FeedbackService {
   constructor(
     @InjectModel(Feedback.name) private feedbackModel: Model<Feedback>,
     private readonly fileService: FileService,
+    private readonly productService: ProductService,
+    private readonly shopService: ShopService,
   ) {}
 
   async create(files: Express.Multer.File[], data: CreateFeedbackDto) {
@@ -19,6 +23,33 @@ export class FeedbackService {
 
     const newFeedback = new this.feedbackModel(data);
     const result = await newFeedback.save();
+
+    const product = await this.productService.findOne(data.product);
+    const averageRating =
+      (+data.service + +data.priceQuality + +data.delivery) / 3;
+
+    const productAverageRating = product.averageRating
+      ? (product.averageRating * product.feedbacks.length + averageRating) /
+        (product.feedbacks.length + 1)
+      : averageRating;
+
+    await this.productService.update(data.product, null, {
+      feedbacks: [...product.feedbacks, result._id],
+      averageRating: productAverageRating,
+    });
+
+    const products = await this.productService.findAll(data.shop);
+    const shop = await this.shopService.getShopById(data.shop);
+
+    const productsWithAverage = products.filter((p) => p.averageRating);
+    const shopAverageRating = shop.averageRating
+      ? (shop.averageRating * productsWithAverage.length + averageRating) /
+        (productsWithAverage.length + 1)
+      : averageRating;
+
+    await this.shopService.updateShop(data.shop, {
+      averageRating: +shopAverageRating,
+    });
 
     if (!files?.length) return result;
 

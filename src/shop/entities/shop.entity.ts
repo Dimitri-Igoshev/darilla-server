@@ -149,6 +149,9 @@ export class Shop {
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Shop' }])
   branches: Shop[];
+
+  @Prop({ type: Number })
+  averageRating: number;
 }
 
 export const ShopSchema = SchemaFactory.createForClass(Shop);

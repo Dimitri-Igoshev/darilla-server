@@ -1,7 +1,7 @@
 import { Status, TaxSystem } from '../entities/shop.entity';
 
 export class UpdateShopDto {
-  title: string;
+  title?: string;
   logoUrl?: string;
   address?: string;
   city?: string;
@@ -35,4 +35,5 @@ export class UpdateShopDto {
   status?: Status;
   mainShop?: string;
   branches?: string[];
+  averageRating?: number;
 }

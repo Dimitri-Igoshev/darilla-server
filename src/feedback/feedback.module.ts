@@ -9,6 +9,7 @@ import { Feedback, FeedbackSchema } from './entities/feedback.entity';
 import { ProductService } from '../product/product.service';
 import { UserService } from '../user/user.service';
 import { Shop, ShopSchema } from '../shop/entities/shop.entity';
+import { ShopService } from '../shop/shop.service';
 
 @Module({
   imports: [
@@ -21,6 +22,6 @@ import { Shop, ShopSchema } from '../shop/entities/shop.entity';
     CommonModule,
   ],
   controllers: [FeedbackController],
-  providers: [FeedbackService, ProductService, UserService],
+  providers: [FeedbackService, ProductService, UserService, ShopService],
 })
 export class FeedbackModule {}
