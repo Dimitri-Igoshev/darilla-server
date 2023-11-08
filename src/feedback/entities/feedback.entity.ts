@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from '../../user/entities/user.entity';
 import { Product } from '../../product/entities/product.entity';
-import { Shop } from "../../shop/entities/shop.entity";
+import { Shop } from '../../shop/entities/shop.entity';
 
 export enum FeedbackStatus {
   ACTIVE = 'ACTIVE',

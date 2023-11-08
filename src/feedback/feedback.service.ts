@@ -132,7 +132,18 @@ export class FeedbackService {
     );
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const feedback = await this.feedbackModel.findOne({ _id: id }).exec();
+
+    const product = await this.productService.findOne(
+      feedback.product.toString(),
+    );
+    await this.productService.update(product._id.toString(), null, {
+      feedbacks: product.feedbacks
+        .filter((f) => f.toString() !== id)
+        .map((i) => i.toString()),
+    });
+
     return this.feedbackModel.deleteOne({ _id: id }).exec();
   }
 }
