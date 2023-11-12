@@ -70,10 +70,9 @@ export class ProductService {
     if (search) filter.title = { $regex: search, $options: 'i' };
 
     if (slug) {
-      const categoryId = await this.categoryService.findOneBySlug(slug);
-      if (categoryId) filter.categories = categoryId;
+      const category = await this.categoryService.findOneBySlug(slug);
+      if (category) filter.categories = category._id;
     }
-
     // Model.find().skip((pageNumber-1)*limit).limit(limit).exec()
     return this.productModel.find(filter).limit(+limit).exec();
   }
