@@ -35,19 +35,19 @@ export class FileService {
         resizedFiles = [
           {
             originalname: `${file.originalname.split('.')[0]}-xl.webp`,
-            buffer: await sharp(buffer).resize(600, 600).toBuffer(),
+            buffer: await sharp(buffer).resize(1000, 1000).toBuffer(),
           },
           {
             originalname: `${file.originalname.split('.')[0]}-l.webp`,
-            buffer: await sharp(buffer).resize(400, 400).toBuffer(),
+            buffer: await sharp(buffer).resize(600, 600).toBuffer(),
           },
           {
             originalname: `${file.originalname.split('.')[0]}-m.webp`,
-            buffer: await sharp(buffer).resize(200, 200).toBuffer(),
+            buffer: await sharp(buffer).resize(400, 400).toBuffer(),
           },
           {
             originalname: `${file.originalname.split('.')[0]}-s.webp`,
-            buffer: await sharp(buffer).resize(100, 100).toBuffer(),
+            buffer: await sharp(buffer).resize(200, 200).toBuffer(),
           },
           {
             originalname: `${file.originalname.split('.')[0]}-xs.webp`,
