@@ -60,6 +60,10 @@ export class CategoryService {
     return this.categoryModel.findOne({ _id: id }).exec();
   }
 
+  findOneBySlug(slug: string) {
+    return this.categoryModel.findOne({ slug }).exec();
+  }
+
   findRootCategories() {
     return this.categoryModel.find({ parent: { $exists: false } }).exec();
   }

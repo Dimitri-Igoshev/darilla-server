@@ -33,11 +33,12 @@ export class ProductController {
   findAll(
     @Query('shop') shop: string,
     @Query('category') category: string,
+    @Query('slug') slug: string,
     @Query('status') status: ProductStatus,
     @Query('search') search: string,
     @Query('limit') limit: string,
   ) {
-    return this.productService.findAll(shop, category, status, search, limit);
+    return this.productService.findAll(shop, category, slug, status, search, limit);
   }
 
   @Get(':id')

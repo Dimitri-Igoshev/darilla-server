@@ -9,6 +9,8 @@ import { CommonModule } from '../common/common.module';
 import { Product, ProductSchema } from '../product/entities/product.entity';
 import { ProductService } from '../product/product.service';
 import { Feedback, FeedbackSchema } from '../feedback/entities/feedback.entity';
+import { CategoryService } from '../category/category.service'
+import { Category, CategorySchema } from '../category/entities/category.entity'
 
 @Module({
   imports: [
@@ -17,10 +19,11 @@ import { Feedback, FeedbackSchema } from '../feedback/entities/feedback.entity';
       { name: User.name, schema: UserSchema },
       { name: Product.name, schema: ProductSchema },
       { name: Feedback.name, schema: FeedbackSchema },
+      { name: Category.name, schema: CategorySchema },
     ]),
     CommonModule,
   ],
   controllers: [ShopController],
-  providers: [ShopService, UserService, ProductService],
+  providers: [ShopService, UserService, ProductService, CategoryService],
 })
 export class ShopModule {}

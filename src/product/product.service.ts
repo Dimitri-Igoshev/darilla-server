@@ -5,12 +5,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from './entities/product.entity';
 import { FileService } from '../file/file.service';
+import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
     private readonly fileService: FileService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   async create(files: Express.Multer.File[], data: CreateProductDto) {
@@ -53,9 +55,10 @@ export class ProductService {
     return result;
   }
 
-  findAll(
+  async findAll(
     shop?: string,
     category?: string,
+    slug?: string,
     status?: string,
     search?: string,
     limit?: string,
@@ -65,6 +68,11 @@ export class ProductService {
     if (category) filter.categories = category;
     if (status) filter.status = status;
     if (search) filter.title = { $regex: search, $options: 'i' };
+
+    if (slug) {
+      const categoryId = await this.categoryService.findOneBySlug(slug);
+      if (categoryId) filter.categories = categoryId;
+    }
 
     // Model.find().skip((pageNumber-1)*limit).limit(limit).exec()
     return this.productModel.find(filter).limit(+limit).exec();

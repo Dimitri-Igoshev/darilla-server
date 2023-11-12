@@ -9,12 +9,15 @@ import { UserService } from '../user/user.service';
 import { CommonModule } from '../common/common.module';
 import { ProductService } from '../product/product.service';
 import { Product, ProductSchema } from '../product/entities/product.entity';
+import { Category, CategorySchema } from '../category/entities/category.entity'
+import { CategoryService } from '../category/category.service'
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Product.name, schema: ProductSchema },
+      { name: Category.name, schema: CategorySchema },
     ]),
     JwtModule.register({
       global: true,
@@ -24,6 +27,6 @@ import { Product, ProductSchema } from '../product/entities/product.entity';
     CommonModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, ProductService],
+  providers: [AuthService, UserService, ProductService, CategoryService],
 })
 export class AuthModule {}
