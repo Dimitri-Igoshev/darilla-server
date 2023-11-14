@@ -42,6 +42,11 @@ export class CategoryController {
     return this.categoryService.findRootCategories();
   }
 
+  @Get('get/slug/:slug')
+  findBySlug(@Param('slug') slug: string) {
+    return this.categoryService.findOneBySlug(slug);
+  }
+
   @Get('children/:parentId')
   findChildren(@Param('parentId') parentId: string) {
     return this.categoryService.findChildren(parentId);
