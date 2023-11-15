@@ -39,6 +39,12 @@ export enum ProductStatus {
 
 @Schema()
 export class Product {
+  @Prop({
+    type: Date,
+    default: Date.now,
+  })
+  created: Date;
+
   @Prop({ type: String })
   title: string;
 

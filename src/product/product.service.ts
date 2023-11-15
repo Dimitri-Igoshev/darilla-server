@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { Product } from './entities/product.entity';
 import { FileService } from '../file/file.service';
 import { CategoryService } from '../category/category.service';
+import { ProductSort } from './enum/product-sort.enum';
 
 @Injectable()
 export class ProductService {
@@ -55,12 +56,34 @@ export class ProductService {
     return result;
   }
 
+  getSortStr(sort: ProductSort): any[] | any {
+    switch (sort) {
+      case ProductSort.POPULAR:
+        return [['favoriteCount', -1]];
+      case ProductSort.RATING:
+        return [['averageRating', -1]];
+      case ProductSort.PRICE_INCREASE:
+        return [['price', 1]];
+      case ProductSort.PRICE_DECREASE:
+        return [['price', -1]];
+      case ProductSort.NEW:
+        return { _id: -1 };
+      case ProductSort.DISCOUNT:
+        return [[sort, -1]];
+      default:
+        return [[]];
+    }
+  }
+
   async findAll(
     shop?: string,
     category?: string,
     slug?: string,
     status?: string,
     search?: string,
+    minprice?: string,
+    maxprice?: string,
+    sort?: ProductSort,
     limit?: string,
   ) {
     const filter: any = {};
@@ -74,7 +97,14 @@ export class ProductService {
       if (category) filter.categories = category._id;
     }
     // Model.find().skip((pageNumber-1)*limit).limit(limit).exec()
-    return this.productModel.find(filter).limit(+limit).exec();
+    return this.productModel
+      .find(filter)
+      .where('price')
+      .gt(minprice ? +minprice - 1 : 0)
+      .lt(maxprice ? +maxprice + 1 : 9999999)
+      .sort(this.getSortStr(sort))
+      .limit(+limit)
+      .exec();
   }
 
   findOne(id: string) {

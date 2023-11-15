@@ -15,6 +15,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductStatus } from './entities/product.entity';
+import { ProductSort } from "./enum/product-sort.enum";
 
 @Controller('product')
 export class ProductController {
@@ -36,9 +37,22 @@ export class ProductController {
     @Query('slug') slug: string,
     @Query('status') status: ProductStatus,
     @Query('search') search: string,
+    @Query('minprice') minprice: string,
+    @Query('maxprice') maxprice: string,
+    @Query('sort') sort: ProductSort,
     @Query('limit') limit: string,
   ) {
-    return this.productService.findAll(shop, category, slug, status, search, limit);
+    return this.productService.findAll(
+      shop,
+      category,
+      slug,
+      status,
+      search,
+      minprice,
+      maxprice,
+      sort,
+      limit,
+    );
   }
 
   @Get(':id')
