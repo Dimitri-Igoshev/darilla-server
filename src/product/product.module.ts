@@ -23,7 +23,7 @@ import { CategoryService } from '../category/category.service';
     CommonModule,
   ],
   controllers: [ProductController],
-  providers: [ProductService, UserService, CategoryService],
+  providers: [ProductService, CategoryService, UserService],
   exports: [ProductModule, ProductService],
 })
 export class ProductModule {}

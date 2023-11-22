@@ -1,4 +1,8 @@
-import { ProductionTime, Structure } from '../entities/product.entity'
+import {
+  ProductionTime,
+  ProductLike,
+  Structure,
+} from '../entities/product.entity';
 
 export class UpdateProductDto {
   title?: string;
@@ -16,7 +20,7 @@ export class UpdateProductDto {
   inStock?: boolean;
 
   viewCount?: number;
-  favoriteCount?: number;
+  favoritesCount?: ProductLike[];
   buyCount?: number;
   rating?: number;
 

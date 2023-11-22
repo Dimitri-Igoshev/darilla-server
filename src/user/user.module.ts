@@ -7,8 +7,8 @@ import { CommonModule } from '../common/common.module';
 import { Product, ProductSchema } from '../product/entities/product.entity';
 import { ProductService } from '../product/product.service';
 import { Shop, ShopSchema } from '../shop/entities/shop.entity';
-import { Category, CategorySchema } from '../category/entities/category.entity'
-import { CategoryService } from '../category/category.service'
+import { Category, CategorySchema } from '../category/entities/category.entity';
+import { CategoryService } from '../category/category.service';
 
 @Module({
   imports: [

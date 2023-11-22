@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -7,11 +7,13 @@ import { Product } from './entities/product.entity';
 import { FileService } from '../file/file.service';
 import { CategoryService } from '../category/category.service';
 import { ProductSort } from './enum/product-sort.enum';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
+    @InjectModel(User.name) private userModel: Model<User>,
     private readonly fileService: FileService,
     private readonly categoryService: CategoryService,
   ) {}
@@ -176,17 +178,31 @@ export class ProductService {
       .exec();
   };
 
-  updateFavorites = async ({ productId, add }) => {
+  updateFavorites = async ({ userId, productId }) => {
+    const user = await this.userModel.findOne({ _id: userId }).exec();
     const product = await this.findOne(productId);
 
-    return await this.update(productId, null, {
-      favoriteCount: add
-        ? product.favoriteCount
-          ? product.favoriteCount + 1
-          : 1
-        : product.favoriteCount
-        ? product.favoriteCount - 1
-        : 0,
-    });
+    if (!product || !user)
+      throw new NotFoundException('Пользователь или товар не найден');
+
+    const alreadyAdded = !!user.favorites.find(
+      (item) => item.toString() === productId,
+    );
+
+    const favorites: Product[] = alreadyAdded
+      ? user.favorites.filter((item) => item.toString() !== productId)
+      : [productId, ...user.favorites];
+    const favoritesCount = alreadyAdded
+      ? product.favoritesCount.filter((item) => item.user !== userId)
+      : [
+          { createdAt: new Date(Date.now()), user: userId },
+          ...product.favoritesCount,
+        ];
+
+    await this.userModel
+      .findOneAndUpdate({ _id: userId }, { favorites })
+      .exec();
+
+    return await this.update(productId, null, { favoritesCount });
   };
 }

@@ -71,8 +71,11 @@ export class UserController {
     return this.userService.removeUser(id);
   }
 
-  @Patch('update/favorites')
-  updateFavorites(@Body() data: { productId: string; userId: string }) {
-    return this.userService.updateFavorites(data);
-  }
+  // @Patch('update/favorites')
+  // updateFavorites(
+  //   @UserId() userId: string,
+  //   @Body() data: { productId: string },
+  // ) {
+  //   return this.userService.updateFavorites(userId, productId);
+  // }
 }

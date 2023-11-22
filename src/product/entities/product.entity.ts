@@ -15,6 +15,11 @@ export interface Structure {
   quantity: number;
 }
 
+export interface ProductLike {
+  createdAt: Date;
+  user: string;
+}
+
 export enum Period {
   SECONDS = 'SECONDS',
   MINUTES = 'MINUTES',
@@ -103,8 +108,8 @@ export class Product {
   @Prop({ type: Number })
   viewCount: number;
 
-  @Prop({ type: Number })
-  favoriteCount: number;
+  @Prop({ type: [Object] })
+  favoritesCount: ProductLike[];
 
   @Prop({ type: Number })
   buyCount: number;

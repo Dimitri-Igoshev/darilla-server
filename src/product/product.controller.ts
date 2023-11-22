@@ -15,7 +15,8 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductStatus } from './entities/product.entity';
-import { ProductSort } from "./enum/product-sort.enum";
+import { ProductSort } from './enum/product-sort.enum';
+import { UserId } from '../decorators/user-id.decorator';
 
 @Controller('product')
 export class ProductController {
@@ -81,7 +82,9 @@ export class ProductController {
   }
 
   @Patch('update/favorites')
-  updateFavorites(@Body() body: { productId: string; add: boolean }) {
+  updateFavorites(
+    @Body() body: { userId: string, productId: string },
+  ) {
     return this.productService.updateFavorites(body);
   }
 }

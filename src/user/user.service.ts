@@ -7,7 +7,6 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { FileService } from '../file/file.service';
 import { MFile } from '../file/mfile.class';
-import { Product } from '../product/entities/product.entity';
 import { ProductService } from '../product/product.service';
 
 @Injectable()
@@ -89,7 +88,10 @@ export class UserService {
     return this.userModel
       .findOne({ _id: id })
       .select('-password')
-      .populate({ path: 'shops', model: 'Shop' })
+      .populate([
+        { path: 'shops', model: 'Shop' },
+        { path: 'favorites', model: 'Product' },
+      ])
       .exec();
   }
 
@@ -128,12 +130,12 @@ export class UserService {
     return this.userModel.find({ shops: shopId }).select('-password').exec();
   }
 
-  updateFavorites = async ({ productId, userId }) => {
-    const user = await this.getUserById(userId);
-
-    const favorites = user.favorites.includes(productId)
-      ? user.favorites.filter((i: Product | any) => i.toString() !== productId)
-      : [...user.favorites, productId];
-    return this.updateUser(userId, { favorites }, null);
-  };
+  // updateFavorites = async ({ productId, userId }) => {
+  //   const user = await this.getUserById(userId);
+  //
+  //   const favorites = user.favorites.includes(productId)
+  //     ? user.favorites.filter((i: Product | any) => i.toString() !== productId)
+  //     : [...user.favorites, productId];
+  //   return this.updateUser(userId, { favorites }, null);
+  // };
 }
