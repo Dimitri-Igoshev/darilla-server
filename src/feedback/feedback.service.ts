@@ -85,7 +85,10 @@ export class FeedbackService {
   findByAuthorId(id: string) {
     return this.feedbackModel
       .find({ author: id })
-      .populate({ path: 'product', model: 'Product' })
+      .populate([
+        { path: 'product', model: 'Product' },
+        { path: 'author', model: 'User' },
+      ])
       .sort({ created: -1 })
       .exec();
   }
