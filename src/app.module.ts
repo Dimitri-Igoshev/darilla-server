@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { CommonModule } from './common/common.module';
+import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { CommonModule } from './common/common.module';
     FileModule,
     FeedbackModule,
     CommonModule,
+    CartModule,
+    OrderModule,
   ],
 })
 export class AppModule {}
