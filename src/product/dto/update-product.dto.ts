@@ -9,6 +9,7 @@ export class UpdateProductDto {
   images?: string[];
   videoUrl?: string;
   price?: number;
+  finalPrice?: number;
   discount?: number;
   productionTime?: ProductionTime;
   structures?: Structure[];

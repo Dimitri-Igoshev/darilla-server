@@ -63,6 +63,9 @@ export class Product {
   price: number;
 
   @Prop({ type: Number })
+  finalPrice: number;
+
+  @Prop({ type: Number })
   discount: number;
 
   @Prop({ type: Object })

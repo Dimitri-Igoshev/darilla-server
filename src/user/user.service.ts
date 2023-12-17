@@ -15,7 +15,7 @@ export class UserService {
     @InjectModel(User.name) private userModel: Model<User>,
     private readonly fileService: FileService,
     private readonly productService: ProductService,
-  ) {}
+  ) { }
 
   saltOrRounds = 12;
 
@@ -91,6 +91,7 @@ export class UserService {
       .populate([
         { path: 'shops', model: 'Shop' },
         { path: 'favorites', model: 'Product' },
+        { path: 'cart', model: 'Cart'}
       ])
       .exec();
   }
@@ -124,6 +125,16 @@ export class UserService {
         { new: true },
       )
       .exec();
+  }
+
+  async addCart(userId: string, cartId: string) {
+    const user = await this.getUserById(userId)
+
+    return user
+      .updateOne(
+        { cart: cartId },
+        { new: true }
+      ).exec()
   }
 
   getShopStaff(shopId: string) {

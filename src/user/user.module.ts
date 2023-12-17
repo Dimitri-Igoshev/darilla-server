@@ -9,6 +9,7 @@ import { ProductService } from '../product/product.service';
 import { Shop, ShopSchema } from '../shop/entities/shop.entity';
 import { Category, CategorySchema } from '../category/entities/category.entity';
 import { CategoryService } from '../category/category.service';
+import { Cart, CartSchema } from 'src/cart/entities/cart.entity';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CategoryService } from '../category/category.service';
       { name: Product.name, schema: ProductSchema },
       { name: Shop.name, schema: ShopSchema },
       { name: Category.name, schema: CategorySchema },
+      { name: Cart.name, schema: CartSchema },
     ]),
     CommonModule,
   ],

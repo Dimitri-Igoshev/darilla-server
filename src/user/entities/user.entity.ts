@@ -4,6 +4,7 @@ import { Shop } from '../../shop/entities/shop.entity';
 import * as mongoose from 'mongoose';
 import { Product } from '../../product/entities/product.entity';
 import { Feedback } from '../../feedback/entities/feedback.entity'
+import { Cart } from 'src/cart/entities/cart.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -76,6 +77,9 @@ export class User {
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Shop' }])
   shops: Shop[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Cart' })
+  cart: Cart;
 
   @Prop()
   refreshToken: string;

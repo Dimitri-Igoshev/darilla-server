@@ -19,6 +19,7 @@ export class ProductService {
   ) {}
 
   async create(files: Express.Multer.File[], data: CreateProductDto) {
+    data.finalPrice = data.discount ? Math.round(((100 - data.discount) / 100) * data.price) : data.price
     const newProduct = new this.productModel(data);
     const result = await newProduct.save();
 
@@ -124,6 +125,7 @@ export class ProductService {
     files: Express.Multer.File[],
     data: UpdateProductDto,
   ) {
+    data.finalPrice = data.discount ? Math.round(((100 - data.discount) / 100) * data.price) : data.price
     const result = await this.productModel
       .findOneAndUpdate({ _id: id }, { ...data }, { new: true })
       .exec();

@@ -3,6 +3,7 @@ import { ProductionTime, Structure } from '../entities/product.entity';
 export class CreateProductDto {
   title: string;
   price: number;
+  finalPrice?: number;
   discount?: number;
   productionTime?: ProductionTime;
   structures?: Structure[];
