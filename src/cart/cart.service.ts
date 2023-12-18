@@ -13,12 +13,12 @@ export class CartService {
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
     private readonly userService: UserService
-  ) {}
+  ) { }
 
   async create(cart: CreateCartDto) {
     cart.bonuses = cart.totalPrice / 100 * 5
 
-    const newCart = new this.cartModel({...cart})
+    const newCart = new this.cartModel({ ...cart })
     const res = await newCart.save()
 
     if (cart.user) await this.userService.addCart(cart.user, res._id.toString())
@@ -39,12 +39,12 @@ export class CartService {
 
   findOneByUserId(id: string) {
     return this.cartModel
-    .findOne({ _id: id })
-    .populate([
-      { path: 'products', model: 'Product' },
-      { path: 'shop', model: 'Shop' }
-    ])
-    .exec()
+      .findOne({ _id: id })
+      .populate([
+        { path: 'products', model: 'Product' },
+        { path: 'shop', model: 'Shop' }
+      ])
+      .exec()
   }
 
   async update(id: string, data: UpdateCartDto) {
@@ -57,12 +57,16 @@ export class CartService {
     }
 
     data.bonuses = data.totalPrice / 100 * 5
-    
+
     return this.cartModel.findByIdAndUpdate(
       { _id: id },
       { ...data },
       { new: true }
-    )
+    ).populate([
+      { path: 'products', model: 'Product' },
+      { path: 'shop', model: 'Shop' }
+    ])
+      .exec()
   }
 
   remove(id: string) {
