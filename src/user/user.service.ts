@@ -91,10 +91,9 @@ export class UserService {
       .populate([
         { path: 'shops', model: 'Shop' },
         { path: 'favorites', model: 'Product' },
-        { path: 'cart', model: 'Cart'},
-        { path: 'cart/products', model: 'Product'},
-        { path: 'cart/shop', model: 'Shop'},
-        
+        { path: 'cart', model: 'Cart' },
+        // { path: 'cart/products', model: 'Product'},
+        // { path: 'cart/shop', model: 'Shop'},
       ])
       .exec();
   }
