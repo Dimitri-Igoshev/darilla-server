@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { PaymentDto } from './dto/payment.dto';
 
 @Controller('cart')
 export class CartController {
@@ -30,5 +31,10 @@ export class CartController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.cartService.remove(id);
+  }
+
+  @Post('pay')
+  pay(@Body() paymentDto: PaymentDto) {
+    return this.cartService.createPayment(paymentDto);
   }
 }

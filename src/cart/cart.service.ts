@@ -5,8 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cart } from './entities/cart.entity';
 import { Model } from 'mongoose';
 import { UserService } from 'src/user/user.service';
-import { Product } from 'src/product/entities/product.entity';
-import { ProductService } from 'src/product/product.service';
+import YooKassa from 'yookassa-ts/lib/yookassa'
 
 @Injectable()
 export class CartService {
@@ -75,5 +74,32 @@ export class CartService {
 
   getFinalPrice = (price: number, discount: number): number => {
     return discount ? Math.round(((100 - discount) / 100) * price) : price
+  }
+
+  yooKassa = new YooKassa({
+    shopId: '295247',
+    secretKey: 'test_XO295hI5Z3DDizoqI-gLgqvZgFMlX8azzNib3voZ2ss'
+  });
+
+  createPayment = async ({ sum, description }) => {
+    const res = await this.yooKassa.createPayment({
+      amount: {
+        value: sum,
+        // @ts-ignore
+        currency: "RUB"
+      },
+      // payment_method_data: {
+      //   // @ts-ignore
+      //   type: "bank_card"
+      // },
+      // @ts-ignore
+      confirmation: {
+        type: "redirect",
+        return_url: process.env.FE_URL
+      },
+      description
+    });
+
+    return res
   }
 }
