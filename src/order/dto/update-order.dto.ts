@@ -1,4 +1,20 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateOrderDto } from './create-order.dto';
+import { Recipient } from "../entities/order.entity"
 
-export class UpdateOrderDto extends PartialType(CreateOrderDto) {}
+export class UpdateOrderDto {
+  // orderNumber: string
+  status?: string
+  // shop: string
+  shopper?: string
+  products?: string[]
+  quantities?: number[]
+  postCardText?: string
+  deliveryAddress?: string
+  deliveryDateTime?: string
+  recipient?: Recipient
+  deliveryPrice?: number
+  sum?: number
+  bonuses?: number
+  paymentId?: string
+  paymentStatus: string
+  courier?: string
+}
