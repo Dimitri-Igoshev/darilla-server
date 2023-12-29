@@ -22,6 +22,11 @@ export class OrderController {
     return this.orderService.findByShopperId(id);
   }
 
+  @Get('shop/:id')
+  findByShopId(@Param('id') id: string) {
+    return this.orderService.findByShopId(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.update(+id, updateOrderDto);

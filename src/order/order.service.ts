@@ -28,8 +28,9 @@ export class OrderService {
   findByShopId(id: string) {
     return this.orderModel.find({ shop: id }).populate([
       { path: 'products', model: 'Product' },
-      { path: 'shopper', model: 'User'}
-    ])
+      { path: 'shopper', model: 'User'},
+      { path: 'shop', model: 'Shop' },
+    ]).exec()
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {
