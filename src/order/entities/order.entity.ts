@@ -16,6 +16,13 @@ export enum PaymentStatus {
   SUCCEEDED = 'SUCCEEDED'
 }
 
+export enum TimeSort {
+  TODAY = 'TODAY',
+  WEEK = 'WEEK',
+  MONTH = 'MONTH',
+  YEAR = 'YEAR'
+}
+
 export type Recipient = {
   firstName: string
   lastName: string

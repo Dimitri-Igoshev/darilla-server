@@ -6,12 +6,15 @@ import { Cart } from './entities/cart.entity';
 import { Model } from 'mongoose';
 import { UserService } from 'src/user/user.service';
 import YooKassa from 'yookassa-ts/lib/yookassa'
+import { IAmount } from 'yookassa-ts/lib/types/Common';
+import { OrderService } from 'src/order/order.service';
 
 @Injectable()
 export class CartService {
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly orderService: OrderService
   ) { }
 
   async create(cart: CreateCartDto) {
@@ -81,7 +84,7 @@ export class CartService {
     secretKey: 'test_XO295hI5Z3DDizoqI-gLgqvZgFMlX8azzNib3voZ2ss'
   });
 
-  createPayment = async ({ sum, description }) => {
+  createPayment = async ({ sum, description, orderId }) => {
     const res = await this.yooKassa.createPayment({
       amount: {
         value: sum,
@@ -99,6 +102,20 @@ export class CartService {
       },
       description
     });
+
+    const order = await this.orderService.update(orderId, { paymentId: res.id })
+
+    return res
+  }
+
+  capturePayment = async ({ paymentId, sum }) => {
+    const amount: IAmount = {
+      value: sum,
+      // @ts-ignore
+      currency: "RUB"
+    }
+
+    const res = await this.yooKassa.capturePayment(paymentId, amount)
 
     return res
   }

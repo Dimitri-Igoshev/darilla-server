@@ -15,6 +15,6 @@ export class UpdateOrderDto {
   sum?: number
   bonuses?: number
   paymentId?: string
-  paymentStatus: string
+  paymentStatus?: string
   courier?: string
 }

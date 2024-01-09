@@ -12,6 +12,8 @@ import { ProductService } from 'src/product/product.service';
 import { CategoryService } from 'src/category/category.service';
 import { Category, CategorySchema } from 'src/category/entities/category.entity';
 import { Feedback, FeedbackSchema } from 'src/feedback/entities/feedback.entity';
+import { OrderService } from 'src/order/order.service';
+import { Order, OrderSchema } from 'src/order/entities/order.entity';
 
 @Module({
   imports: [
@@ -22,10 +24,11 @@ import { Feedback, FeedbackSchema } from 'src/feedback/entities/feedback.entity'
       { name: Product.name, schema: ProductSchema },
       { name: Feedback.name, schema: FeedbackSchema },
       { name: Category.name, schema: CategorySchema },
+      { name: Order.name, schema: OrderSchema }
     ]),
     CommonModule,
   ],
   controllers: [CartController],
-  providers: [CartService, UserService, ProductService, CategoryService],
+  providers: [CartService, UserService, ProductService, CategoryService, OrderService],
 })
 export class CartModule {}

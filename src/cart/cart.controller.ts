@@ -3,6 +3,7 @@ import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { PaymentDto } from './dto/payment.dto';
+import { CaptureDto } from './dto/capture.dto';
 
 @Controller('cart')
 export class CartController {
@@ -36,5 +37,10 @@ export class CartController {
   @Post('pay')
   pay(@Body() paymentDto: PaymentDto) {
     return this.cartService.createPayment(paymentDto);
+  }
+
+  @Post('capture')
+  capture(@Body() captureDto: CaptureDto) {
+    return this.cartService.capturePayment(captureDto)
   }
 }
